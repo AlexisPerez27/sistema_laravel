@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\dashboard\c_publicaciones;
 use App\Http\Controllers\Prueba;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Routing\Route as RoutingRoute;
@@ -70,3 +71,7 @@ Route::get('/prueba', [Prueba::class,'index']);
 
 // para enviar datos a travez de una ruta 
 Route::get('/envio/{dato}',[Prueba::class,'envio']);
+
+
+// ==================================== PARA CRUD EN CONTROLADOR PUBLICACIONES=========================================================
+route::resource('post',c_publicaciones::class);

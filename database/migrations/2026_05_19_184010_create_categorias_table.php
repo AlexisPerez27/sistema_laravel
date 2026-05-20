@@ -6,16 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    // nota: en la migracion se colocan los campos que se van a crear en la base de datos,
+    //  mientras que en el modelo se colocan los campos que se van a llenar en la base de datos
     public function up(): void
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->id()->autoIncrement()->primary();
             $table->string('titulo', 500);
             $table->string('slug', 500);
-            $table->uuid('uuid')->unique();
+            $table->uuid('uuid')->unique()->autoGenerate();
             $table->timestamps();
         });
     }
