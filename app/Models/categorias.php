@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Concerns\HasVersion4Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str; // Importamos la clase Str para generar el UUID
 
 
 class categorias extends Model
 {
-    // cuando se crea el modelo es necesario en el archivo del modelo colocar los campos que se van a llenar en la base de datos
-    use HasFactory;
 
     // definimos la llave primaria
     protected $primaryKey = 'id';
@@ -18,7 +19,24 @@ class categorias extends Model
     protected $fillable = [
         'titulo',
         'slug',
+        'uuid'
     ];
+
+
+    /**
+     * El método booted intercepta las operaciones del modelo.
+     * Aquí automatizamos el llenado del campo 'uuid'.
+     */
+    protected static function booted()
+    {
+        // Antes de que Laravel inserte un nuevo registro en la base de datos...
+        static::creating(function (categorias $categoria) {
+            // ...llenamos el campo 'uuid' con un UUID Versión 4 de forma automática
+            if (empty($categoria->uuid)) {
+                $categoria->uuid = (string) Str::uuid();
+            }
+        });
+    }
 
     public function publicaciones(){
         // declaramos la relacion de la tabla categorias con la tabla publicaciones,

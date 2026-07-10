@@ -4,7 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\publicaciones;
-// use App\Models\categorias;
+use App\Models\categorias;
 use Illuminate\Http\Request;
 
 class c_publicaciones extends Controller
@@ -17,10 +17,15 @@ class c_publicaciones extends Controller
         $pub = publicaciones::find(3); // para buscar un registro en la base de datos por su id
         // $cat = categorias::find(1); // para buscar un registro en la base de datos por su id
 
-        dd($pub->categorias->titulo); // para ver el resultado de la busqueda en la base de datos y mostrar el titulo de la categoria a la que pertenece la publicacion
+        // dd($pub->categorias->titulo); // para ver el resultado de la busqueda en la base de datos y mostrar el titulo de la categoria a la que pertenece la publicacion
+
+        // categorias::create([
+        //     'titulo' => 'categoria de prueba',
+        //     'slug' => 'categoria-de-prueba',
+        // ]);
 
         // dd($cat->publicaciones[0]->titulo); // para ver el resultado de la busqueda en la base de datos y mostrar todas las publicaciones que pertenecen a la categoria
-        // json de ejemplo 
+        // json de ejemplo
         // return response()->json([
         //     'status' => 200,
         //     'publicacion' => $pub
@@ -61,7 +66,14 @@ class c_publicaciones extends Controller
      */
     public function create()
     {
-        //
+        // trae toda la informacion de la tabla categorias y la devuelve en un array asociativo con el id como llave y el titulo como valor
+        // $cat = categorias::get();
+        // solo trae la informacion de la tabla categorias y la devuelve en un array asociativo con el id como llave y el titulo como valor
+        // pluck es un metodo de laravel que sirve para traer solo un campo de la tabla y devolverlo en un array asociativo con el id como llave y el titulo como valor
+        //nota importante pluck agrupa los datos, aqui habia dos filas con el titlo igual y las agrupo y solo trajo el ultimo id, solo para tenerlo en cuenta
+        $cat = categorias::pluck('id', 'titulo');
+        // dd($cat);
+        return  view("dashboard.publicaciones.crear",["cat"=>$cat]);
     }
 
     /**

@@ -75,3 +75,5 @@ Route::get('/envio/{dato}',[Prueba::class,'envio']);
 
 // ==================================== PARA CRUD EN CONTROLADOR PUBLICACIONES=========================================================
 route::resource('post',c_publicaciones::class);
+// agregmos una ruta para crear una publicacion donde entra a la funcion create del controlador c_publicaciones
+route::get('post/create',[c_publicaciones::class,'create'])->name('post/create');
