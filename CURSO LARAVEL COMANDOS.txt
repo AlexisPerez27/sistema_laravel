@@ -1,0 +1,129 @@
+################### PARA CREAR UN PROYECTO EN LARAVEL 
+
+-- PRIMERO VAMOS A INSTALAR LARAVEL EN NUSTRO EQUIPO
+composer global require laravel/installer
+
+-- SI YA SE CUENTA CON LARAVEL EN EL SISTEMA PODEMOS ELIMINARLO Y VOLVERLO A INSTALAR
+1 composer global remove laravel/installer
+2 composer global require laravel/installer
+
+
+-- PARA CREAR PROYECTO CON LOS COMANDOS DE LARAVEL SIN USAR COMPOSER 
+-- NOTA: ESTA PARTE AYUDA MUCHO PARA CONFIGURAR QUE BD QUIEERES, SI QUIERES USAR JETSTREM O VUE, TAMBIEN PARA ASIGNAR LA IA DE LARAVEL
+laravel new prueba
+
+-- PARA CREAR PROYECTO CON LOS COMANDO DE COMPOSER 
+-- NOTA: ES UNA INSTALACION MAS LIMPIA SIN INSTALACION DE ALGUNAS DEPENDENCIAS
+
+composer create-project laravel/laravel prueba
+
+
+============================================ RUTAS ====================================================
+-- PARA SABER LOS COMANDOS QUE OCUPA PHP ARTISAN
+php artisan
+
+--PARA VER EL LISTADO DE RUTAS
+php artisan route:list
+-- NOTA: SE PUEDE ABREVIAR ALGUNAS SENTENCIAS
+php artisan r:l
+
+
+-- PARA CREACION DE RUTAS
+// para agregar nombre a las rutas
+Route::get('/nombre_rutas', function () {
+    return view("nombre_ruta");
+})->name("nombre_ruta");
+
+
+// routa para redireccionar a una nueva vista
+Route::get('/redireccion', function () {
+    // return "vista para redireccionar una ruta";
+    // return redirect("contacto"); // siempre se coloca la ruta NO el nombre
+    // return redirect()->route("contacto"); // de esta forma siempre se ocupara el nombre de la ruta
+    return to_route("contacto"); // es igual que la funcion de arriba redirect()->route("contacto") pero con menos codigo
+});
+
+
+//para mandar a llamar vista desde un controlador
+Route::get('/prueba', [Prueba::class,'index']);
+
+
+// asi lo recibimos en el controlador
+function index(){
+        return view("contacto", ["nombre"=>'Alex']);
+    }
+
+
+// para una ruta resouce desde el controlador
+//sirve para evitar mandar a llamar los multiples metodos del controlador DELETE,PUT,PATCH,SHOW,ETC
+Route::resource('post',Prueba::class);
+
+
+// para enviar datos a travez de una ruta 
+Route::get('/envio/{dato}',[Prueba::class,'envio']);
+
+// asi recibimos el dato en el controlador 
+function envio($dato){
+        echo "ayuda ".$dato;
+    }
+
+
+
+-- PARA MANEJAR LA FUNCION COMPACT
+function index(){
+        // simulacion de obtencion de datos de la bd
+        $datos_bd = ['dato1', 'dato2'];
+        $categorias =['categoria1','categoria2'];
+
+        // asi es como tradicionalmente se envian los datos a la vista desde una variable
+        // NOTA: aqui se puede ver que el nombre de la variable de los datos de la bd es distinto a la variabale que recibe la vista
+        // return view("contacto", ["datos"=>$datos_bd,"categorias"=>$categorias]);
+
+
+        // esta funcion manda a la vista nuestros datos obtenidos de la bd
+        // NOTA: el nombre que va dentro de compact es el mismo que recibe la vista y tiene que ser el mismo que la variable que recibe los datos de la bd
+        return view("contacto", compact("datos_bd",'categorias')); 
+    }
+
+
+===================================================== MIGRACIONES =================================================================
+--PARA CREAR MIGRACIONES QUE HAY POR DEFAULT
+php artisan make:migration
+
+-- PARA EJECUTAR MIGRACIONES
+php artisan migrate
+
+-- CREAR NUEVAS MIGRACIONES 
+--NOTA: ESTE COMANDO CREA YA LA MIGRACION COMO TAMBIEN CREA LA ESTRUCTURA DE COMO IRÁ LA MIGRACION
+php artisan make:migration createCategoriasTable
+
+
+-- PARA ELIMINAR MIGRACIONES
+php artisan migrate:rollback
+
+
+====================================================== CONTROLADORES ================================================================
+--PARA CREAR CONTROLADORES 
+-- ESTO ES PARA CREAR UN CONTROLADOR
+php artisan make:controller nombre_controlador
+
+-- SI COLOCAMOS -r ESTO GENERARA EL CONTROLADOR CON FUNCIONES POR DEFAULT PARA UN CRUD
+php artisan make:controller nombre_controlador -r
+
+
+-- ESTO PARA CREAR UN CONTROLADOR DENTRO DE UNA CARPETA
+php artisan make:controller carpeta/nombre_controlador
+
+
+-- ESTO SIRVE PARA ASOCIAR UN MODELO O CREAR UN MODELO JUNTO CON EL CONTROLADOR
+php artisan make:controller nombre_controlador -r -m
+
+
+====================================================== MODELOS ================================================================
+--PARA CREAR MODELOS
+-- ESTO CREA UN MODELO, VACIO SIN NADA
+php artisan make:model categorías
+
+-- ESTE COMANDO CREA EL MODELO Y TAMBIEN EL CONTROLADOR CON EL RESURCES QUE SON LAS FUNCIONES POR DEFAULT PARA EL CRUD 
+-- AUNQUE EL CONROLADOR SE CREA ASI NOMBRE+CONTROLLER
+php artisan make:model categorias -r
