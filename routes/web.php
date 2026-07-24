@@ -76,4 +76,18 @@ Route::get('/envio/{dato}',[Prueba::class,'envio']);
 // ==================================== PARA CRUD EN CONTROLADOR PUBLICACIONES=========================================================
 route::resource('post',c_publicaciones::class);
 // agregmos una ruta para crear una publicacion donde entra a la funcion create del controlador c_publicaciones
-route::get('post/create',[c_publicaciones::class,'create'])->name('post/create');
+route::get('post/create',[c_publicaciones::class,'create'])->name('post.create');
+
+
+//agregamos la ruta para poder actualizar, donde entra a la funcion update del controlador c_publicaciones
+route::post('post/{post}',[c_publicaciones::class,'update'])->name('post.update');
+
+
+// agregamos una ruta para editar la publicacion donde entra a la funcion edit del controlador c_publicaciones
+route::get('post/{post}/edit',[c_publicaciones::class,'edit'])->name('post.edit');
+
+//agregmos ruta para eliminar publicacion donde entra a la funcion destroy del controlador c_publicaciones
+Route::get('post/{post}', [c_publicaciones::class,'destroy'])->name("post.delete");
+
+// agregmos ruta para mostrar detalle de la publicacion donde entra a la funcion show del controlador c_publicaciones
+route::get("post/{post}",[c_publicaciones::class,'show'])->name("post.show");

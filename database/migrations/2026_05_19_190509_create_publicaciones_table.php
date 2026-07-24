@@ -12,8 +12,8 @@ return new class extends Migration
     {
         Schema::create('publicaciones', function (Blueprint $table) {
             $table->id()->autoIncrement()->primary();
-            $table->string('titulo', 500);
-            $table->string('slug', 500);
+            $table->string('titulo', 100);
+            $table->string('slug', 100);
             $table->text('descripcion')->nullable();
             $table->text('contenido')->nullable();
             $table->string('imagen')->nullable();

@@ -12,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->id()->autoIncrement()->primary();
-            $table->string('titulo', 500);
+            $table->string('titulo', 100);
             $table->string('slug', 500);
             $table->uuid('uuid')->unique()->autoGenerate();
             $table->timestamps();
