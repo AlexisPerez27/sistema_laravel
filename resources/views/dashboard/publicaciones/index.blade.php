@@ -8,7 +8,10 @@
 
 {{-- agregamos la seccion donde empezara a escribir el contenido de la pagina --}}
 @section("contenido")
-    <div><a href="{{ route('post.create') }}">Crear Publicacion</a></div>
+    <div>
+        <a href="{{ route('post.create') }}">Crear Publicacion</a>
+        <a href="{{ route("categorias.index") }}">Ver Categorias</a>
+    </div>
     <table border="1">
         <thead>
             <tr>
@@ -35,7 +38,11 @@
                     <td>
                         <a href="{{ route("post.show",$p->id) }}">Mostrar</a>
                         <a href="{{ route('post.edit', $p->id) }}">Editar</a>
-                        <a href="{{ route("post.destroy", $p->id) }}">Eliminar</a>
+                        <form action="{{ route("post.delete",$p->id) }}" method="post">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
